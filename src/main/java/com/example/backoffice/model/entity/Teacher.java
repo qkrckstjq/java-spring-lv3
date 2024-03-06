@@ -1,13 +1,16 @@
 package com.example.backoffice.model.entity;
 
 
+import com.example.backoffice.model.dto.TeacherRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "teacher")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +18,8 @@ public class Teacher {
     private Long id;
 
     @OneToOne
-    @Column(name = "member_id")
-    private Member memberId;
+    @JoinColumn(name = "member_id", referencedColumnName = "member_id")
+    private Member member;
 
     @Column(name = "name")
     private String name;
@@ -33,4 +36,11 @@ public class Teacher {
     @Column(name = "intro")
     private String intro;
 
+    public Teacher(TeacherRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.career = requestDto.getCareer();
+        this.company = requestDto.getCompany();
+        this.phoneNumber = requestDto.getPhone_number();
+        this.intro = requestDto.getIntro();
+    }
 }

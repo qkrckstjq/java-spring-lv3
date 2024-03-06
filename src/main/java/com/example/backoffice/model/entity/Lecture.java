@@ -3,13 +3,15 @@ package com.example.backoffice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
-@Entity
+@Entity(name = "lecture")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +19,7 @@ public class Lecture {
     private Long id;
 
     @ManyToOne
-    @Column(name = "teacher_id")
+    @JoinColumn(name = "teacher_id", referencedColumnName = "teacher_id")
     private Teacher teacherId;
 
     @Column(name = "title")

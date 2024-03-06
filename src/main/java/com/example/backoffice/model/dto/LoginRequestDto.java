@@ -1,6 +1,7 @@
 package com.example.backoffice.model.dto;
 
 
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +10,8 @@ import lombok.Setter;
 public class LoginRequestDto {
     private String email;
     private String password;
-    public LoginRequestDto(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+//    public LoginRequestDto(String email, String password) {
+//        this.email = email;
+//        this.password = password;
+//    }
 }
