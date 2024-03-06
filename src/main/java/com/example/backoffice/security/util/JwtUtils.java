@@ -70,8 +70,12 @@ public class JwtUtils {
     }
 
     public Claims getParsedToken(String token) {
-        String subjectedToken = token.substring(7);
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(subjectedToken).getBody();
+        try {
+            String subStringToken = URLDecoder.decode(token, "UTF-8").substring(7);
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(subStringToken).getBody();
+        } catch (Exception e) {
+        }
+        return null;
     }
 
 }

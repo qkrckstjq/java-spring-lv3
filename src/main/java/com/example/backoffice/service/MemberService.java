@@ -5,6 +5,7 @@ import com.example.backoffice.model.dto.LoginRequestDto;
 import com.example.backoffice.model.dto.SignupRequestDto;
 import com.example.backoffice.model.entity.Member;
 import com.example.backoffice.repository.MemberRepository;
+import com.example.backoffice.security.PasswordConfig;
 import com.example.backoffice.security.util.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +21,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
-    public MemberService(MemberRepository memberRepository, JwtUtils jwtUtils) {
+    public MemberService(MemberRepository memberRepository, JwtUtils jwtUtils, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.jwtUtils = jwtUtils;
-        this.passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void signin(SignupRequestDto requestDto) {

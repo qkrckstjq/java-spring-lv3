@@ -26,7 +26,6 @@ import java.util.List;
 
 @Slf4j(topic = "jwt토큰이 왔을때 토큰 검증")
 //@Order(1)
-@Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter { //jwt토큰에 대한 인증을 시도하는 필터
     //jwt토큰에 대해 인증을 시도하고 jwt토큰이 비어있다면 뒤 필터에게 넘어감
     private final JwtUtils jwtUtils;
@@ -52,9 +51,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter { //jwt토큰�
                 // 모든 필터가 공유할 SecurityContextHolder에 Authentication 객체 설정 다른 필터에서도 접근 할 수 있게
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("토큰 인증 완료 유효한 토큰");
-            } else {
-                return;
             }
+            return;
         }
         log.info("넘어온 토큰 없음 다음 필터로 넘어감");
         filterChain.doFilter(request, response);

@@ -2,6 +2,7 @@ package com.example.backoffice.security;
 
 //import com.example.backoffice.security.filter.JwtAuthenticationFilter;
 //import com.example.backoffice.security.filter.JwtAuthorizationFilter;
+
 import com.example.backoffice.security.filter.JwtAuthenticationFilter;
 import com.example.backoffice.security.filter.JwtAuthorizationFilter;
 import com.example.backoffice.security.user.MemberDetailServiceCustom;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,28 +21,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
     private final JwtUtils jwtUtils;//컴포넌트로 등록
-    private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final MemberDetailServiceCustom memberDetailServiceCustom;
     private final AuthenticationConfiguration authenticationConfiguration;
 
-    public WebSecurityConfig(JwtUtils jwtUtils, JwtAuthorizationFilter jwtAuthorizationFilter, MemberDetailServiceCustom memberDetailServiceCustom, AuthenticationConfiguration authenticationConfiguration) {
+    public WebSecurityConfig(JwtUtils jwtUtils, MemberDetailServiceCustom memberDetailServiceCustom, AuthenticationConfiguration authenticationConfiguration) {
         this.jwtUtils = jwtUtils;
-        this.jwtAuthorizationFilter = jwtAuthorizationFilter;
         this.memberDetailServiceCustom = memberDetailServiceCustom;
         this.authenticationConfiguration = authenticationConfiguration;
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtils);
         filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
         return filter;
     }
+
+    @Bean
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter(jwtUtils, memberDetailServiceCustom);
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
         //HttpSecurity 요청에 대해 여러가지 보안검증을 시도할 수 있는 객체
@@ -58,9 +60,8 @@ public class WebSecurityConfig {
             request
                     .requestMatchers("/signup").permitAll()
                     .anyRequest().authenticated();
-
         });
-        httpSecurity.addFilterBefore(jwtAuthorizationFilter, JwtAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 //        httpSecurity.addFilter(jwtAuthorizationFilter);

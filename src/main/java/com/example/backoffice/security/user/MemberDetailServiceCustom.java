@@ -23,6 +23,9 @@ public class MemberDetailServiceCustom implements UserDetailsService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() ->
             new UsernameNotFoundException("해당 이메일이 존재하지 않습니다.")
         );
+        log.info("요청한 정의 이메일, 비밀번호");
+        log.info(member.getEmail());
+        log.info(member.getPassword());
         return new MemberDetailCustom(member);
     }
 }

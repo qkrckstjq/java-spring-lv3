@@ -22,7 +22,6 @@ import java.io.IOException;
 @Slf4j(topic = "로그인 및 jwt토큰 발행")
 @Component
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter { //아이디, 비밀번호 로그인에 대한 인증을 시도하는 필터
-    //이곳으로 왔을때 httpR
     private final JwtUtils jwtUtils;
     public JwtAuthenticationFilter(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
@@ -44,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             null
                     )
             );
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
