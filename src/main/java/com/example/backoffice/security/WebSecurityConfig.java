@@ -3,6 +3,7 @@ package com.example.backoffice.security;
 //import com.example.backoffice.security.filter.JwtAuthenticationFilter;
 //import com.example.backoffice.security.filter.JwtAuthorizationFilter;
 
+import com.example.backoffice.model.ValidEnum.Auth;
 import com.example.backoffice.security.filter.JwtAuthenticationFilter;
 import com.example.backoffice.security.filter.JwtAuthorizationFilter;
 import com.example.backoffice.security.user.MemberDetailServiceCustom;
@@ -59,6 +60,10 @@ public class WebSecurityConfig {
         httpSecurity.authorizeHttpRequests((request) -> {//요청url별 검증할것인지 안할것인지 한다면 필터로 하지 않는다면 컨트롤러로
             request
                     .requestMatchers("/signup").permitAll()
+                    .requestMatchers("/teacher**").hasAuthority("MANAGER")
+                    .requestMatchers("/teacher/**").hasAuthority("MANAGER")
+                    .requestMatchers("/lecture/**").hasAuthority("MANAGER")
+                    .requestMatchers("/lecture**").hasAuthority("MANAGER")
                     .anyRequest().authenticated();
         });
         httpSecurity.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);

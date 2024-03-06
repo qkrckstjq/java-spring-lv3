@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/")
-public class UserController {
+public class MemberController {
     private final MemberService memberService;
-
-    @Autowired
-    public UserController(MemberService memberService) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -34,20 +32,4 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-    @PostMapping("login")
-    public ResponseEntity<Void> login(@RequestHeader(value = "Authorization", required = false) String jwt, @RequestBody(required = false) LoginRequestDto requestDto, HttpServletResponse res) {
-        try {
-            if(!StringUtils.hasText(jwt)) {
-                log.info("쿠키 없음");
-                memberService.login(requestDto, res);
-            } else {
-                memberService.validJwt(jwt);
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
 }

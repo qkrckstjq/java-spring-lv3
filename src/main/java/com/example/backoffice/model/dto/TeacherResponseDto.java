@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class TeacherResponseDto {
     private String name;
-    private String career;
+    private Long career;
     private String company;
     private String phone_number;
     private String intro;

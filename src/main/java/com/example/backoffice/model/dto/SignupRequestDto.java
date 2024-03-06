@@ -15,8 +15,6 @@ public class SignupRequestDto {
     private String email;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&])[a-zA-Z0-9@$!%*#?&]{8,15}$")
     private String password;
-//    @Pattern(regexp = "^(CURRICULUM|DEVELOPMENT|MARKETING)$")
     private Part part;
-//    @Pattern(regexp = "^(MANAGER|STAFF|COMMON)$")
     private Auth auth;
 }

@@ -1,6 +1,7 @@
 package com.example.backoffice.model.entity;
 
 
+import com.example.backoffice.model.dto.LectureRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,13 +21,13 @@ public class Lecture {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "teacher_id")
-    private Teacher teacherId;
+    private Teacher teacher;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "price")
-    private String price;
+    private Long price;
 
     @Column(name = "intro")
     private String intro;
@@ -36,5 +37,21 @@ public class Lecture {
 
     @Column(name = "created_at")
     private Date createdAt;
+
+    public Lecture(LectureRequestDto requestDto, Teacher teacher) {
+        this.teacher = teacher;
+        this.title = requestDto.getTitle();
+        this.price = requestDto.getPrice();
+        this.intro = requestDto.getIntro();
+        this.category = requestDto.getCategory();
+        this.createdAt = new Date();
+    }
+
+    public void setLecture(LectureRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.price = requestDto.getPrice();
+        this.intro = requestDto.getIntro();
+        this.category = requestDto.getCategory();
+    }
 
 }

@@ -5,24 +5,17 @@ import com.example.backoffice.security.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 @Slf4j(topic = "jwt토큰이 왔을때 토큰 검증")
 //@Order(1)
@@ -51,8 +44,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter { //jwt토큰�
                 // 모든 필터가 공유할 SecurityContextHolder에 Authentication 객체 설정 다른 필터에서도 접근 할 수 있게
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.info("토큰 인증 완료 유효한 토큰");
+            } else {
+                return;
             }
-            return;
         }
         log.info("넘어온 토큰 없음 다음 필터로 넘어감");
         filterChain.doFilter(request, response);
