@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Lecture {
+public class Lecture extends TimeStamped{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -35,16 +35,12 @@ public class Lecture {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "created_at")
-    private Date createdAt;
-
     public Lecture(LectureRequestDto requestDto, Teacher teacher) {
         this.teacher = teacher;
         this.title = requestDto.getTitle();
         this.price = requestDto.getPrice();
         this.intro = requestDto.getIntro();
         this.category = requestDto.getCategory().toString();
-        this.createdAt = new Date();
     }
 
     public void setLecture(LectureRequestDto requestDto) {

@@ -6,6 +6,8 @@ import com.example.backoffice.model.entity.Teacher;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,7 +18,7 @@ public class LectureResponseDto {
     private String intro;
     private String category;
     private Teacher teacher;
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     public LectureResponseDto(Lecture lecture) {
         this.title = lecture.getTitle();
