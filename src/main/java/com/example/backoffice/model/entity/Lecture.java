@@ -43,7 +43,7 @@ public class Lecture {
         this.title = requestDto.getTitle();
         this.price = requestDto.getPrice();
         this.intro = requestDto.getIntro();
-        this.category = requestDto.getCategory();
+        this.category = requestDto.getCategory().toString();
         this.createdAt = new Date();
     }
 
@@ -51,7 +51,7 @@ public class Lecture {
         this.title = requestDto.getTitle();
         this.price = requestDto.getPrice();
         this.intro = requestDto.getIntro();
-        this.category = requestDto.getCategory();
+        this.category = requestDto.getCategory().toString();
     }
 
 }

@@ -6,6 +6,7 @@ import com.example.backoffice.model.dto.TeacherResponseDto;
 import com.example.backoffice.model.entity.Lecture;
 import com.example.backoffice.model.entity.Teacher;
 import com.example.backoffice.service.LectureService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class LectureController {
         this.lectureService = lectureService;
     }
     @PostMapping
-    public ResponseEntity<LectureResponseDto> registLecture(@RequestBody LectureRequestDto requestDto, @RequestParam Long teacher) {
+    public ResponseEntity<LectureResponseDto> registLecture(@RequestBody @Valid LectureRequestDto requestDto, @RequestParam Long teacher) {
         Optional<Lecture> registedLecture = lectureService.save(requestDto, teacher);
         if(registedLecture.isPresent()) {
             return new ResponseEntity<>(new LectureResponseDto(registedLecture.get()), HttpStatus.OK);
@@ -30,7 +31,7 @@ public class LectureController {
         }
     }
     @PutMapping
-    public ResponseEntity<LectureResponseDto> editLecture(@RequestBody LectureRequestDto requestDto, @RequestParam Long lecture) {
+    public ResponseEntity<LectureResponseDto> editLecture(@RequestBody @Valid LectureRequestDto requestDto, @RequestParam Long lecture) {
         Optional<Lecture> editLecture = lectureService.edit(requestDto, lecture);
         if(editLecture.isPresent()) {
             return new ResponseEntity<>(new LectureResponseDto(editLecture.get()), HttpStatus.OK);

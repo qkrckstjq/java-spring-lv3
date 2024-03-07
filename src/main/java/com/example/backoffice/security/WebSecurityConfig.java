@@ -57,19 +57,18 @@ public class WebSecurityConfig {
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });
 
-        httpSecurity.authorizeHttpRequests((request) -> {//요청url별 검증할것인지 안할것인지 한다면 필터로 하지 않는다면 컨트롤러로
+        httpSecurity.authorizeHttpRequests((request) -> {
             request
                     .requestMatchers("/signup").permitAll()
-                    .requestMatchers("/teacher**").hasAuthority("MANAGER")
-                    .requestMatchers("/teacher/**").hasAuthority("MANAGER")
-                    .requestMatchers("/lecture/**").hasAuthority("MANAGER")
-                    .requestMatchers("/lecture**").hasAuthority("MANAGER")
+                    .requestMatchers("/teacher**").hasAuthority(Auth.MANAGER.getAuth())
+                    .requestMatchers("/teacher/**").hasAuthority(Auth.MANAGER.getAuth())
+                    .requestMatchers("/lecture/**").hasAuthority(Auth.MANAGER.getAuth())
+                    .requestMatchers("/lecture**").hasAuthority(Auth.MANAGER.getAuth())
                     .anyRequest().authenticated();
         });
         httpSecurity.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-//        httpSecurity.addFilter(jwtAuthorizationFilter);
+        //순서대로 jwtAuthorizationFilter -> JwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter
         return httpSecurity.build();
     }
 }

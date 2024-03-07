@@ -1,7 +1,6 @@
 package com.example.backoffice.model.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,8 @@ import lombok.Setter;
 public class TeacherRequestDto {
     @NotBlank
     private String name;
-    @Size(min = 0, max = 1000)
+    @NotNull
+    @Positive
     private Long career;
     @NotBlank
     private String company;

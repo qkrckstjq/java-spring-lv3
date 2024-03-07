@@ -27,7 +27,7 @@ public class TeacherController {
     }
 
     @PostMapping
-    public ResponseEntity<TeacherResponseDto> registTeacher(@RequestBody TeacherRequestDto requestDto, @AuthenticationPrincipal MemberDetailCustom member) {
+    public ResponseEntity<TeacherResponseDto> registTeacher(@RequestBody @Valid TeacherRequestDto requestDto, @AuthenticationPrincipal MemberDetailCustom member) {
         Optional<Teacher> registedTeacher = teacherService.save(requestDto, member.getId());
         if(registedTeacher.isPresent()) {
             return new ResponseEntity<>(new TeacherResponseDto(registedTeacher.get()), HttpStatus.OK);
@@ -36,7 +36,7 @@ public class TeacherController {
         }
     }
     @PutMapping
-    public ResponseEntity<TeacherResponseDto> editTeacher(@RequestBody TeacherEditRequestDto requestDto, @RequestParam Long teacher) {
+    public ResponseEntity<TeacherResponseDto> editTeacher(@RequestBody @Valid TeacherEditRequestDto requestDto, @RequestParam Long teacher) {
         Optional<Teacher> editedTeacher = teacherService.edit(requestDto, teacher);
         if(editedTeacher.isPresent()) {
             return new ResponseEntity<>(new TeacherResponseDto(editedTeacher.get()), HttpStatus.OK);
