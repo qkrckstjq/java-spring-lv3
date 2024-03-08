@@ -39,22 +39,21 @@ public class MemberService {
         log.info("가입 가능한 이메일 입니다.");
         memberRepository.save(new Member(requestDto, password));
     }
-
-    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
-        Member existMember = memberRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
-            new IllegalArgumentException("존재 하지 않는 email 입니다.")
-        );
-        if(!existMember.getPassword().equals(requestDto.getPassword())) {
-            throw new IllegalArgumentException("비밀 번호가 일치하지 않습니다.");
-        }
-        String jwtToken = jwtUtils.createJWT(existMember.getEmail(), existMember.getId(), existMember.getPart(), existMember.getAuth());
-        jwtUtils.addJwtInHeader(jwtToken, res);
-    }
-
-    public void validJwt(String jwt) {
-        if(!jwtUtils.authorizationJwt(jwt)) {
-            throw new IllegalArgumentException("유효하지 않은 토큰");
-        }
-        log.info("유요한 토큰");
-    }
+//    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
+//        Member existMember = memberRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
+//            new IllegalArgumentException("존재 하지 않는 email 입니다.")
+//        );
+//        if(!existMember.getPassword().equals(requestDto.getPassword())) {
+//            throw new IllegalArgumentException("비밀 번호가 일치하지 않습니다.");
+//        }
+//        String jwtToken = jwtUtils.createJWT(existMember.getEmail(), existMember.getId(), existMember.getPart(), existMember.getAuth());
+//        jwtUtils.addJwtInHeader(jwtToken, res);
+//    }
+//
+//    public void validJwt(String jwt) {
+//        if(!jwtUtils.authorizationJwt(jwt)) {
+//            throw new IllegalArgumentException("유효하지 않은 토큰");
+//        }
+//        log.info("유요한 토큰");
+//    }
 }
