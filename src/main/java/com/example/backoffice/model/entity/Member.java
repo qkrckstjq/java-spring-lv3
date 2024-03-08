@@ -22,21 +22,21 @@ public class Member {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "gender")
-    private String gender;
+    @Column(name = "part")
+    private String part;
 
     @Column(name = "auth")
     private String auth;
     public Member(SignupRequestDto requestDto) {
         this.email = requestDto.getEmail();
         this.password = requestDto.getPassword();
-        this.gender = requestDto.getGender();
+        this.part = requestDto.getPart().toString();
         this.auth = requestDto.getAuth().toString();
     }
     public Member(SignupRequestDto requestDto, String password) {
         this.email = requestDto.getEmail();
         this.password = password;
+        this.part = requestDto.getPart().toString();
         this.auth = requestDto.getAuth().toString();
-        this.gender = requestDto.getGender();
     }
 }
